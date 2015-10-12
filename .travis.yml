@@ -18,6 +18,7 @@ install:
   # packages for running tests
   - pip install setuptools
   - pip install flake8
+  - pip install scripttest
   # packages specified by setup.py
   - pip install .
 script:
