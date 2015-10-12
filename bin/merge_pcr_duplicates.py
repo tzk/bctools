@@ -79,7 +79,7 @@ logging.info("")
 input_handle = open(args.bclib, "rU")
 input_seq_iterator = SeqIO.parse(input_handle, "fasta")
 bcs = pd.DataFrame.from_records(
-    data=fasta_tuple_generator(input_seq_iterator),
+    data={ (record.id, str(record.seq)) for record in input_seq_iterator },
     columns=["read_id", "bc"])
 
 # load alignments
