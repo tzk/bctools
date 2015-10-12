@@ -3,12 +3,24 @@ python:
   - "2.7"
   # - "3.4"
 sudo: false
+before_install:
+  # setup miniconda distribution
+  - travis_retry wget http://repo.continuum.io/miniconda/Miniconda-3.8.3-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH=$HOME/miniconda/bin:$PATH
+  - conda update --yes conda
 install:
+  # packages from anaconda distribution
+  - conda create --yes -n condaenv python=$TRAVIS_PYTHON_VERSION
+  - source activate condaenv
+  - conda install --yes "pandas>=0.16.2"
+  - conda install --yes scripttest
   # packages for running tests
   - pip install setuptools
   - pip install flake8
   # packages specified by setup.py
   - pip install .
 script:
-  - flake8 . --exclude=.venv --ignore=E501
+  - flake8 . --exclude=condaenv --ignore=E501
   - nosetests
